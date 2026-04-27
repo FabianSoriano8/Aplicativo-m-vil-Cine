@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Cine Noir Theme Colors -->
+    <color name="bg_noir">#0D0D0D</color>
+    <color name="card_noir">#1A1A1A</color>
+    <color name="accent_noir">#D1B3FF</color>
+    <color name="text_secondary_noir">#8E8E8E</color>
+    <color name="input_line_noir">#333333</color>
 </resources>
