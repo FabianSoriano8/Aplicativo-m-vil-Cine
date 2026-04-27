@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.appcineindie.databinding.FragmentRegisterBinding
 
 class RegisterFragment : Fragment() {
@@ -25,6 +26,10 @@ class RegisterFragment : Fragment() {
 
         binding.btRegistrar.setOnClickListener {
             // Lógica de registro aquí
+        }
+
+        binding.tvLoginLink.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 

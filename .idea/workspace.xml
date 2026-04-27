@@ -5,6 +5,16 @@
       <config />
     </shared>
     <layouts>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_login_button.xml">
+        <config>
+          <theme>@style/Theme.AppCineIndie</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_login_card.xml">
+        <config>
+          <theme>@style/Theme.AppCineIndie</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml">
         <config>
           <theme>@style/Theme.AppCineIndie</theme>
@@ -106,7 +116,7 @@
   </component>
   <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$" gradleHome="C:\Users\fabif\Downloads\Tepig_Pedido_FINAL\wrapper\dists\gradle-9.3.1-bin\23ovyewtku6u96viwx3xl3oks\gradle-9.3.1" javaHome="C:\Program Files\Android\Android Studio\jbr" gradleVersion="9.3.1" />
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="_Designer_Tab" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
