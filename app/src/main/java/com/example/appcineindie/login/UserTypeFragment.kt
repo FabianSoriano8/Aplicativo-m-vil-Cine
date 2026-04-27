@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.appcineindie.R
 import com.example.appcineindie.databinding.ActivityUsertypeBinding
 
 class UserTypeFragment : Fragment() {
@@ -33,7 +35,7 @@ class UserTypeFragment : Fragment() {
         }
         
         binding.btnContinuar.setOnClickListener {
-            // Navegar a la pantalla principal de la app
+            findNavController().navigate(R.id.action_userTypeFragment_to_reviewsFragment)
         }
     }
 
