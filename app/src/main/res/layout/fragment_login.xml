@@ -5,10 +5,23 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="AppCineIndie"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:paddingBottom="24dp" />
+
     <EditText
         android:id="@+id/etEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autofillHints=""
         android:hint="Correo electrónico"
         android:inputType="textEmailAddress"
         android:minHeight="48dp" />
@@ -17,6 +30,7 @@
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autofillHints=""
         android:hint="Contraseña"
         android:inputType="textPassword"
         android:minHeight="48dp" />
@@ -26,4 +40,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Iniciar sesión" />
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Registrarse" />
 </LinearLayout>

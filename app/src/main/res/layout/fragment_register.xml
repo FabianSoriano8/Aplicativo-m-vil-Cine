@@ -1,33 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <TextView
+    <EditText
         android:id="@+id/etNombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Tu nombre aqui" />
+        android:autofillHints="name"
+        android:hint="Tu nombre aqui"
+        android:inputType="textPersonName"
+        android:minHeight="48dp" />
 
-    <TextView
+    <EditText
         android:id="@+id/etCorreo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Tu correo aqui" />
+        android:autofillHints="emailAddress"
+        android:hint="Tu correo aqui"
+        android:inputType="textEmailAddress"
+        android:minHeight="48dp" />
 
-    <TextView
+    <EditText
         android:id="@+id/etContraseña"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autofillHints="password"
         android:hint="Ingresa tu contraseña"
-        />
+        android:inputType="textPassword"
+        android:minHeight="48dp" />
 
-    <TextView
+    <EditText
         android:id="@+id/etVerificacion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Verifica tu contraseña" />
+        android:autofillHints="password"
+        android:hint="Verifica tu contraseña"
+        android:inputType="textPassword"
+        android:minHeight="48dp" />
 
     <Button
         android:id="@+id/btRegistrar"
