@@ -19,5 +19,15 @@
         android:id="@+id/registerFragment"
         android:name="com.example.appcineindie.login.RegisterFragment"
         android:label="Register"
-        tools:layout="@layout/fragment_register" />
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_userTypeFragment"
+            app:destination="@id/userTypeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/userTypeFragment"
+        android:name="com.example.appcineindie.login.UserTypeFragment"
+        android:label="User Type"
+        tools:layout="@layout/activity_usertype" />
 </navigation>

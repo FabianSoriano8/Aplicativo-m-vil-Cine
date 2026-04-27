@@ -5,33 +5,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import com.example.appcineindie.R
-import com.example.appcineindie.databinding.FragmentRegisterBinding
+import com.example.appcineindie.databinding.ActivityUsertypeBinding
 
-class RegisterFragment : Fragment() {
+class UserTypeFragment : Fragment() {
 
-    private var _binding: FragmentRegisterBinding? = null
+    private var _binding: ActivityUsertypeBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        _binding = ActivityUsertypeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.btRegistrar.setOnClickListener {
-            // Lógica de registro aquí
-            findNavController().navigate(R.id.action_registerFragment_to_userTypeFragment)
+        
+        // Aquí puedes agregar la lógica para seleccionar el tipo de perfil
+        binding.cardEspectador.setOnClickListener {
+            // Lógica selección Espectador
         }
-
-        binding.tvLoginLink.setOnClickListener {
-            findNavController().popBackStack()
+        
+        binding.cardCinefilo.setOnClickListener {
+            // Lógica selección Cinéfilo
+        }
+        
+        binding.btnContinuar.setOnClickListener {
+            // Navegar a la pantalla principal de la app
         }
     }
 

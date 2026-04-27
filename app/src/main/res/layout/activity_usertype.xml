@@ -1,7 +1,231 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/bg_noir">
 
-</LinearLayout>
+    <!-- Header Logo -->
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/cine_noir_title"
+            android:textColor="@color/accent_noir"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@android:drawable/ic_menu_info_details"
+            app:tint="@color/text_secondary_noir" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/btnContinuar"
+        app:layout_constraintTop_toBottomOf="@id/topBar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/choose_experience"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:text="@string/configure_profile_desc"
+                android:textColor="@color/text_secondary_noir"
+                android:textSize="14sp" />
+
+            <!-- Card Perfil Espectador -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardEspectador"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/bg_login_card"
+                android:padding="20dp">
+
+                <View
+                    android:id="@+id/iconEspectadorBg"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:background="@drawable/bg_input_field"
+                    android:backgroundTint="#2A1F3D"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@android:drawable/ic_media_play"
+                    app:layout_constraintBottom_toBottomOf="@id/iconEspectadorBg"
+                    app:layout_constraintEnd_toEndOf="@id/iconEspectadorBg"
+                    app:layout_constraintStart_toStartOf="@id/iconEspectadorBg"
+                    app:layout_constraintTop_toTopOf="@id/iconEspectadorBg"
+                    app:tint="@color/accent_noir" />
+
+                <TextView
+                    android:id="@+id/tvEspectadorTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/spectator_profile"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iconEspectadorBg" />
+
+                <TextView
+                    android:id="@+id/tvEspectadorDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/spectator_desc"
+                    android:textColor="@color/text_secondary_noir"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@id/tvEspectadorTitle" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="SELECCIONAR →"
+                    android:textColor="@color/accent_noir"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvEspectadorDesc" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Card Perfil Cinéfilo -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardCinefilo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_login_card"
+                android:padding="20dp">
+
+                <!-- Purple indicator for "Active" -->
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="0dp"
+                    android:background="@color/accent_noir"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginVertical="-20dp"
+                    android:layout_marginStart="-20dp" />
+
+                <View
+                    android:id="@+id/iconCinefiloBg"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:background="@drawable/bg_input_field"
+                    android:backgroundTint="#2A1F3D"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@android:drawable/ic_menu_edit"
+                    app:layout_constraintBottom_toBottomOf="@id/iconCinefiloBg"
+                    app:layout_constraintEnd_toEndOf="@id/iconCinefiloBg"
+                    app:layout_constraintStart_toStartOf="@id/iconCinefiloBg"
+                    app:layout_constraintTop_toTopOf="@id/iconCinefiloBg"
+                    app:tint="@color/accent_noir" />
+
+                <TextView
+                    android:id="@+id/tvCinefiloTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/cinephile_profile"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iconCinefiloBg" />
+
+                <TextView
+                    android:id="@+id/tvCinefiloDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/cinephile_desc"
+                    android:textColor="@color/text_secondary_noir"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@id/tvCinefiloTitle" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvCinefiloDesc">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ACTIVO"
+                        android:textColor="@color/accent_noir"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginStart="8dp"
+                        android:src="@android:drawable/checkbox_on_background"
+                        app:tint="@color/accent_noir" />
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnContinuar"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_margin="24dp"
+        android:backgroundTint="@color/accent_noir"
+        android:text="@string/continue_button"
+        android:textColor="@color/card_noir"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:cornerRadius="12dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
