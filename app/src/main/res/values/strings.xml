@@ -1,4 +1,30 @@
 <resources>
     <string name="app_name">AppCineIndie</string>
-    <string name="tu_nombre_aqu">Tu nombre aquí</string>
+
+    <!-- General -->
+    <string name="cine_noir_title">CINE NOIR</string>
+    <string name="mystery_awaits">EL MISTERIO TE ESPERA</string>
+    <string name="protected_protocol">PROTEGIDO POR EL PROTOCOLO ENCRIPTADO CINE NOIR</string>
+    <string name="password_hint">••••••••</string>
+    <string name="email_hint">correo@ejemplo.com</string>
+
+    <!-- Login -->
+    <string name="sign_in">Iniciar Sesión</string>
+    <string name="email_address_label">DIRECCIÓN DE CORREO</string>
+    <string name="password_label">CONTRASEÑA</string>
+    <string name="forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="login_button">INGRESAR</string>
+    <string name="dont_have_account">¿No tienes una cuenta?</string>
+    <string name="create_account_link">CREAR UNA CUENTA</string>
+
+    <!-- Register -->
+    <string name="begin_journey">Comienza tu viaje</string>
+    <string name="experience_cinema">Vive el cine en su forma más pura y oscura.</string>
+    <string name="name_label">NOMBRE</string>
+    <string name="full_name_hint">Tu nombre completo</string>
+    <string name="email_label">CORREO ELECTRÓNICO</string>
+    <string name="confirm_password_label">CONFIRMAR CONTRASEÑA</string>
+    <string name="create_account_button">CREAR CUENTA</string>
+    <string name="already_member">¿Ya eres miembro?</string>
+    <string name="sign_into_noir">Inicia sesión en Noir →</string>
 </resources>
