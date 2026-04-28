@@ -103,24 +103,6 @@
                     android:text="Únete a la conversación"
                     android:textColor="@color/text_secondary_noir"
                     android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_filter_selected"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="4dp"
-                    android:text="Todas"
-                    android:textColor="@color/accent_noir"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="Amigos"
-                    android:textColor="@color/text_secondary_noir"
-                    android:textSize="12sp" />
             </LinearLayout>
 
             <!-- Review Card 1 -->
@@ -144,7 +126,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:text="Marcus Thorne"
+                    android:text="Marcus"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/ivUserAvatar1"
@@ -205,7 +187,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:text="Neon Genesis: Rebirth"
+                    android:text="TÍTULO DE PELÍCULA"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold"

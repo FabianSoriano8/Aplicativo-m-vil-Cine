@@ -5,12 +5,32 @@
       <config />
     </shared>
     <layouts>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_filter_selected.xml">
+        <config>
+          <theme>@style/Theme.AppCineIndie</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_login_button.xml">
         <config>
           <theme>@style/Theme.AppCineIndie</theme>
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_login_card.xml">
+        <config>
+          <theme>@style/Theme.AppCineIndie</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_rating_badge.xml">
+        <config>
+          <theme>@style/Theme.AppCineIndie</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_review_card.xml">
+        <config>
+          <theme>@style/Theme.AppCineIndie</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/bg_search_bar.xml">
         <config>
           <theme>@style/Theme.AppCineIndie</theme>
         </config>
@@ -45,6 +65,11 @@
           <theme>@style/Theme.AppCineIndie</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_reviews.xml">
+        <config>
+          <theme>@style/Theme.AppCineIndie</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/layout_config.xml">
         <config>
           <theme>@style/Theme.AppCineIndie</theme>
@@ -62,9 +87,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c3710205-e4c9-4306-8d77-0079b99af840" name="Changes" comment="Remove unused `androidx.compose.ui.semantics.text` import in `LoginActivity.kt`.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/libs.versions.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_reviews.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_reviews.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
