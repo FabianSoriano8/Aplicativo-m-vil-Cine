@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_reviewsFragment"
+            app:destination="@id/reviewsFragment" />
     </fragment>
 
     <fragment
