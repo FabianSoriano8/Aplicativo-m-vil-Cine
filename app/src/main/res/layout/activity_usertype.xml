@@ -117,7 +117,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="SELECCIONAR →"
+                    android:text="SELECCIONAR"
                     android:textColor="@color/accent_noir"
                     android:textSize="14sp"
                     android:textStyle="bold"
@@ -197,17 +197,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ACTIVO"
+                        android:text="SELECCIONAR"
                         android:textColor="@color/accent_noir"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_marginStart="8dp"
-                        android:src="@android:drawable/checkbox_on_background"
-                        app:tint="@color/accent_noir" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

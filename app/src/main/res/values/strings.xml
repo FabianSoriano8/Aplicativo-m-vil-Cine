@@ -26,7 +26,7 @@
     <string name="confirm_password_label">CONFIRMAR CONTRASEÑA</string>
     <string name="create_account_button">CREAR CUENTA</string>
     <string name="already_member">¿Ya eres miembro?</string>
-    <string name="sign_into_noir">Inicia sesión en Noir →</string>
+    <string name="sign_into_noir">Inicia sesión en Noir</string>
 
     <!-- User Type / Experience -->
     <string name="choose_experience">Elige tu experiencia</string>
@@ -36,6 +36,6 @@
     <string name="select_action">SELECCIONAR</string>
     <string name="cinephile_profile">Perfil Cinéfilo</string>
     <string name="cinephile_desc">La voz de la comunidad. Escribe reseñas, crea listas y conecta con otros cinéfilos.</string>
-    <string name="active_status">ACTIVO</string>
+    <string name="active_status">SELECCIONAR</string>
     <string name="continue_button">CONTINUAR</string>
 </resources>
