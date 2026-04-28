@@ -86,9 +86,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c3710205-e4c9-4306-8d77-0079b99af840" name="Changes" comment="Remove unused `androidx.compose.ui.semantics.text` import in `LoginActivity.kt`.">
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_reviews.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_reviews.xml" afterDir="false" />
-    </list>
+    <list default="true" id="c3710205-e4c9-4306-8d77-0079b99af840" name="Changes" comment="Remove unused `androidx.compose.ui.semantics.text` import in `LoginActivity.kt`." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -299,7 +297,15 @@
       <option name="project" value="LOCAL" />
       <updated>1777162258149</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Remove unused `androidx.compose.ui.semantics.text` import in `LoginActivity.kt`.">
+      <option name="closed" value="true" />
+      <created>1777340037935</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1777340037935</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
