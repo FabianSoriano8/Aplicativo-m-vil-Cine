@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_noir">
+
+    <!-- Header Logo -->
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/cine_noir_title"
+            android:textColor="@color/accent_noir"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@android:drawable/ic_menu_info_details"
+            app:tint="@color/text_secondary_noir" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topBar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:paddingBottom="40dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/choose_experience"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:text="@string/configure_profile_desc"
+                android:textColor="@color/text_secondary_noir"
+                android:textSize="14sp" />
+
+            <!-- Card Perfil Espectador -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardEspectador"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/bg_login_card"
+                android:padding="20dp">
+
+                <View
+                    android:id="@+id/iconEspectadorBg"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:background="@drawable/bg_input_field"
+                    android:backgroundTint="@color/muted_purple"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@android:drawable/ic_media_play"
+                    app:layout_constraintBottom_toBottomOf="@id/iconEspectadorBg"
+                    app:layout_constraintEnd_toEndOf="@id/iconEspectadorBg"
+                    app:layout_constraintStart_toStartOf="@id/iconEspectadorBg"
+                    app:layout_constraintTop_toTopOf="@id/iconEspectadorBg"
+                    app:tint="@color/accent_noir" />
+
+                <TextView
+                    android:id="@+id/tvEspectadorTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/spectator_profile"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iconEspectadorBg" />
+
+                <TextView
+                    android:id="@+id/tvEspectadorDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/spectator_desc"
+                    android:textColor="@color/text_secondary_noir"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@id/tvEspectadorTitle" />
+
+                <TextView
+                    android:id="@+id/btnSeleccionarEspectador"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="SELECCIONAR"
+                    android:textColor="@color/accent_noir"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvEspectadorDesc" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Card Perfil Cinéfilo -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardCinefilo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_login_card"
+                android:padding="20dp">
+
+                <!-- Purple indicator for "Active" -->
+
+                <View
+                    android:id="@+id/iconCinefiloBg"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:background="@drawable/bg_input_field"
+                    android:backgroundTint="@color/muted_purple"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@android:drawable/ic_menu_edit"
+                    app:layout_constraintBottom_toBottomOf="@id/iconCinefiloBg"
+                    app:layout_constraintEnd_toEndOf="@id/iconCinefiloBg"
+                    app:layout_constraintStart_toStartOf="@id/iconCinefiloBg"
+                    app:layout_constraintTop_toTopOf="@id/iconCinefiloBg"
+                    app:tint="@color/accent_noir" />
+
+                <TextView
+                    android:id="@+id/tvCinefiloTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/cinephile_profile"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iconCinefiloBg" />
+
+                <TextView
+                    android:id="@+id/tvCinefiloDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/cinephile_desc"
+                    android:textColor="@color/text_secondary_noir"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@id/tvCinefiloTitle" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvCinefiloDesc">
+
+                    <TextView
+                        android:id="@+id/btnSeleccionarCinefilo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SELECCIONAR"
+                        android:textColor="@color/accent_noir"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

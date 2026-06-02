@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "821034318572",
+    "project_id": "appcineindie",
+    "storage_bucket": "appcineindie.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:821034318572:android:e6069c15c2977a060743c9",
+        "android_client_info": {
+          "package_name": "com.example.appcineindie"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBO9NcPRk9Kw7n0Wsqk16MWkDZ5LSDYQAg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,5 @@
+/build
+google-services.json
+
+# Android Studio / IntelliJ
+.idea/workspace.xml
