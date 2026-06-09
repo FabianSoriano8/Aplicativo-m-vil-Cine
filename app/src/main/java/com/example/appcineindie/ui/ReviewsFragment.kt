@@ -137,7 +137,7 @@ class ReviewsFragment : Fragment() {
                     movieTitle = movie.title,
                     comment = comment,
                     rating = rating.toString(),
-                    timestamp = System.currentTimeMillis().toString()
+                    timestamp = System.currentTimeMillis()
                 )
 
                 viewModel.addReview("", review, {

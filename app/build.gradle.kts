@@ -62,6 +62,11 @@ dependencies {
     // DataStore
     implementation(libs.androidx.datastore.preferences)
 
+    // Media3
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.ui)
+    implementation(libs.androidx.media3.common)
+
     //Dependencia Coil
     implementation("io.coil-kt:coil:2.6.0")
 

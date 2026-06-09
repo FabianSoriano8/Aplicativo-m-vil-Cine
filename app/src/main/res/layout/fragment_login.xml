@@ -98,6 +98,39 @@
             app:layout_constraintTop_toBottomOf="@id/etEmail" />
 
         <!-- Password Field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintEnabled="false"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/accent_noir"
+            app:layout_constraintTop_toBottomOf="@id/tvPasswordLabel">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="@string/password_hint"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                android:minHeight="48dp"
+                android:paddingVertical="10dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/input_line_noir"
+                android:textSize="14sp"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/passwordDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/input_line_noir"
+            app:layout_constraintTop_toBottomOf="@id/tilPassword" />
         <TextView
             android:id="@+id/tvPasswordLabel"
             android:layout_width="wrap_content"
@@ -109,28 +142,6 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/emailDivider" />
-
-        <EditText
-            android:id="@+id/etPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:hint="@string/password_hint"
-            android:importantForAutofill="no"
-            android:inputType="textPassword"
-            android:minHeight="48dp"
-            android:paddingVertical="10dp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/input_line_noir"
-            android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/tvPasswordLabel" />
-
-        <View
-            android:id="@+id/passwordDivider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/input_line_noir"
-            app:layout_constraintTop_toBottomOf="@id/etPassword" />
 
         <TextView
             android:id="@+id/tvForgotPassword"

@@ -21,12 +21,17 @@
             android:background="@drawable/bg_login_card"
             android:contentDescription="@null" />
 
-        <View
-            android:id="@+id/progressBar"
+        <ProgressBar
+            android:id="@+id/pbMovieProgress"
+            style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="match_parent"
-            android:layout_height="4dp"
+            android:layout_height="6dp"
             android:layout_gravity="bottom"
-            android:background="@color/vibrant_purple" />
+            android:progressTint="@color/vibrant_purple"
+            android:progressBackgroundTint="#44FFFFFF"
+            android:indeterminate="false"
+            android:progress="0"
+            tools:progress="60" />
     </androidx.cardview.widget.CardView>
 
     <TextView

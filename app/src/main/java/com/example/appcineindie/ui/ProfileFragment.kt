@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import android.widget.Toast
 import com.example.appcineindie.R
 import com.example.appcineindie.data.SessionManager
@@ -166,8 +167,16 @@ class ProfileFragment : Fragment() {
                 auth.signOut()
                 sessionManager.logout()
                 if (isAdded) {
-                    // Regresar al login de forma directa y segura
-                    findNavController().navigate(R.id.loginFragment)
+                    // Regresar al login limpiando el historial para que no pueda volver atrás
+                    findNavController().navigate(
+                        R.id.loginFragment,
+                        null,
+                        navOptions {
+                            popUpTo(R.id.nav_graph) {
+                                inclusive = true
+                            }
+                        }
+                    )
                 }
             } catch (e: Exception) {
                 // Navegación fallida o fragmento destruido

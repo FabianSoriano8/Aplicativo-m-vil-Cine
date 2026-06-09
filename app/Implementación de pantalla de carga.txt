@@ -1,0 +1,58 @@
+Implementación de Pantalla de Carga (Loading Screen)
+Se ha implementado una pantalla de carga modal que bloquea la interacción del usuario durante operaciones asíncronas para evitar clics múltiples y mejorar la respuesta visual.
+Cambios Realizados
+Componentes de UI
+•
+dialog_loading.xml: Diseño de la pantalla de carga con un ProgressBar y el texto "Cargando...".
+•
+LoadingDialogFragment.kt: Fragmento de diálogo modal no cancelable.
+•
+LoadingUtils.kt: Funciones de extensión para mostrar y ocultar la carga fácilmente desde cualquier Fragment.
+Estilos
+•
+themes.xml: Se añadió el estilo FullScreenDialog para que el diálogo cubra toda la pantalla con un fondo semitransparente.
+Integración en la App
+Se integró la lógica de carga en los siguientes puntos críticos:
+1.
+LoginFragment.kt: Durante el proceso de inicio de sesión y verificación de tipo de usuario.
+2.
+RegisterFragment.kt: Durante el registro de nuevos usuarios.
+3.
+UserTypeFragment.kt: Al guardar la selección inicial del tipo de usuario.
+4.
+ProfileFragment.kt: Al cambiar el tipo de usuario (Espectador <-> Cinéfilo).
+5.
+Panel de Administración: Se añadió un estado de carga en el AdminViewModel.kt y se observa en:
+◦
+AdminMoviesFragment.kt
+◦
+AdminUsersFragment.kt
+◦
+AdminReviewsFragment.kt
+Verificación
+Pruebas Realizadas
+•
+Compilación: El proyecto compila correctamente (app:assembleDebug).
+•
+Lógica de Bloqueo: El LoadingDialogFragment está configurado con isCancelable = false, lo que impide que el usuario lo cierre con el botón de atrás o haciendo clic fuera de él.
+•
+Gestión de Ciclo de Vida: Se usa dismissAllowingStateLoss() para evitar errores si la respuesta de red llega cuando el fragmento ya no es visible.
+Optimizaciones para Respuesta Instantánea
+Para solucionar el delay y el cierre inesperado (crash) reportado al presionar botones repetidamente, se han aplicado las siguientes mejoras:
+1.
+Eliminación de Animaciones: Se desactivaron las animaciones de ventana en el diálogo de carga para que aparezca en el mismo milisegundo en que se solicita.
+2.
+Transacciones Síncronas (commitNow): Se actualizó LoadingUtils para usar commitNowAllowingStateLoss(). Esto fuerza al sistema a mostrar el diálogo de inmediato y actualiza el estado del FragmentManager instantáneamente, evitando que clics posteriores intenten abrir duplicados.
+3.
+Bloqueo Doble (Botón + Overlay):
+◦
+Además de la pantalla de carga, ahora los botones se desactivan (isEnabled = false) inmediatamente al ser presionados.
+◦
+Se reactivan automáticamente solo en caso de error para permitir un nuevo intento.
+4.
+Robustez: Se añadieron comprobaciones de seguridad (isStateSaved, isDestroyed) para evitar cierres de la app si la respuesta de red llega cuando el usuario ya ha salido de la pantalla.
+Cómo Probar
+1.
+Login Rápido: Intenta presionar el botón de Login muchas veces seguidas. El botón se desactivará tras el primer toque y la pantalla de carga aparecerá instantáneamente, bloqueando cualquier interacción adicional.
+2.
+Cambio de Perfil: Haz lo mismo en el perfil; verás que el botón se bloquea de inmediato y la carga es inmediata.

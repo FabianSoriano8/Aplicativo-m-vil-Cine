@@ -71,10 +71,12 @@ class HomeFragment : Fragment() {
                 navigateToDetail(movie.id)
             }
         }
-
-        // Cargamos todos los datos desde la colección "movies" filtrando por etiquetas
-        viewModel.fetchHomeData()
-
+        lifecycleScope.launch {
+            val userId = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: ""
+            if (userId.isNotEmpty()) {
+                viewModel.fetchHomeData(userId)
+            }
+        }
         // --- Lógica de navegación existente ---
         binding.navHome.setOnClickListener {
             lifecycleScope.launch {
@@ -95,6 +97,7 @@ class HomeFragment : Fragment() {
 
         binding.ivProfile.setOnClickListener {
             findNavController().navigate(R.id.profileFragment)
+
         }
     }
 

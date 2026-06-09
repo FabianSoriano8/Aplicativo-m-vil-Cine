@@ -70,6 +70,15 @@
             android:textColor="@color/white"
             android:textColorHint="@color/text_secondary_noir" />
 
+        <EditText
+            android:id="@+id/etMovieVideoUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Video URL (Firebase/Web)"
+            android:textColor="@color/white"
+            android:textColorHint="@color/text_secondary_noir" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

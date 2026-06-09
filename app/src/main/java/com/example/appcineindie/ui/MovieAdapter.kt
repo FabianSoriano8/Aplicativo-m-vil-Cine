@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -21,6 +22,7 @@ class MovieAdapter(
         val tvTitle: TextView = view.findViewById(R.id.tvMovieTitle)
         val tvRating: TextView? = view.findViewById(R.id.tvRating)
         val tvRemainingTime: TextView? = view.findViewById(R.id.tvRemainingTime)
+        val pbProgress: ProgressBar? = view.findViewById(R.id.pbMovieProgress)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -31,7 +33,11 @@ class MovieAdapter(
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val movie = movies[position]
         holder.tvTitle.text = movie.title
-        
+
+        holder.pbProgress?.progress = movie.progress
+        // Si existe la barra (solo en layout_continue), la hacemos visible
+        holder.pbProgress?.visibility = View.VISIBLE
+
         holder.tvRating?.text = if (movie.rating.isNotEmpty()) "★ ${movie.rating}" else ""
         holder.tvRemainingTime?.text = movie.remainingTime
 
@@ -47,4 +53,5 @@ class MovieAdapter(
     }
 
     override fun getItemCount(): Int = movies.size
+
 }

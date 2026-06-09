@@ -28,6 +28,15 @@
                 android:textStyle="bold"
                 tools:text="User Name" />
 
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvUser"
+                android:textColor="#888888"
+                android:textSize="10sp"
+                tools:text="01/01/2024 12:00" />
+
             <ImageButton
                 android:id="@+id/btnDeleteReview"
                 android:layout_width="32dp"

@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import com.example.appcineindie.data.Movie
 import com.example.appcineindie.data.Review
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 
 class ReviewsViewModel : ViewModel() {
 
@@ -43,20 +42,30 @@ class ReviewsViewModel : ViewModel() {
             db.collection("movies").document(movieId).collection("reviews")
         }
 
-        // Ordenamos por timestamp descendente (más recientes primero)
-        collectionRef.orderBy("timestamp", Query.Direction.DESCENDING)
-            .addSnapshotListener { snapshot, error ->
-                if (error != null) {
-                    android.util.Log.e("ReviewsViewModel", "Error Firestore: ${error.message}")
-                    return@addSnapshotListener
-                }
-
-                if (snapshot != null) {
-                    val reviews = snapshot.toObjects(Review::class.java)
-                    android.util.Log.d("ReviewsViewModel", "Se encontraron ${reviews.size} reseñas")
-                    _reviewsList.value = reviews
-                }
+        // Eliminamos el orderBy de Firestore para que no se filtren las reseñas antiguas que no tengan el campo timestamp
+        collectionRef.addSnapshotListener { snapshot, error ->
+            if (error != null) {
+                android.util.Log.e("ReviewsViewModel", "Error Firestore: ${error.message}")
+                return@addSnapshotListener
             }
+
+            if (snapshot != null) {
+                val reviews = snapshot.toObjects(Review::class.java)
+                
+                // Ordenamos en memoria para incluir todas las reseñas
+                val sortedReviews = reviews.sortedByDescending { review ->
+                    when (val ts = review.timestamp) {
+                        is String -> ts.toLongOrNull() ?: 0L
+                        is Long -> ts
+                        is com.google.firebase.Timestamp -> ts.toDate().time
+                        else -> 0L
+                    }
+                }
+                
+                android.util.Log.d("ReviewsViewModel", "Se encontraron ${sortedReviews.size} reseñas")
+                _reviewsList.value = sortedReviews
+            }
+        }
     }
 
     // 2. Guardar una nueva reseña
