@@ -19,7 +19,8 @@ class AdminMovieAdapter(
             binding.tvMovieTitle.text = movie.title
             binding.tvMovieCategory.text = "Category: ${movie.category}"
             binding.tvMovieGender.text = "Genres: ${movie.genres.joinToString(", ")}"
-            
+            binding.tvMovieRating.text = if (movie.rating.isNotEmpty()) "★ ${movie.rating}" else "No reviews"
+
             Glide.with(binding.ivMoviePoster.context)
                 .load(movie.imageUrl)
                 .into(binding.ivMoviePoster)

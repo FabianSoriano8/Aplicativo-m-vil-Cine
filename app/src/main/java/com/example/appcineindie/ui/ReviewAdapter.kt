@@ -1,17 +1,23 @@
 package com.example.appcineindie.ui
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appcineindie.data.Review
 import com.example.appcineindie.databinding.ItemReviewBinding
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
-import com.google.firebase.Timestamp
+import com.example.appcineindie.utils.DateUtils
 
-class ReviewAdapter(private var reviews: List<Review> = emptyList()) :
-    RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
+class ReviewAdapter(
+    private var reviews: List<Review> = emptyList(),
+    private val currentUserId: String? = null,
+    private val listener: ReviewActions
+) : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
+
+    interface ReviewActions {
+        fun onClick(review: Review)
+        fun onDelete(review: Review)
+    }
 
     inner class ReviewViewHolder(private val binding: ItemReviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -21,24 +27,17 @@ class ReviewAdapter(private var reviews: List<Review> = emptyList()) :
             binding.tvMovieTitleReview.text = review.movieTitle
             binding.tvReviewComment.text = review.comment
             binding.tvReviewRatingText.text = review.rating?.toString() ?: "0.0"
-            binding.tvReviewDate.text = formatTimestamp(review.timestamp)
-        }
-    }
-
-    private fun formatTimestamp(timestamp: Any?): String {
-        return try {
-            val millis = when (timestamp) {
-                is String -> timestamp.toLongOrNull() ?: 0L
-                is Long -> timestamp
-                is Timestamp -> timestamp.toDate().time
-                else -> 0L
+            binding.tvReviewDate.text = DateUtils.formatTimestamp(review.timestamp)
+            
+            // Usar la lógica del modelo
+            if (review.isOwnedBy(currentUserId)) {
+                binding.btnDeleteReview.visibility = View.VISIBLE
+                binding.btnDeleteReview.setSafeOnClickListener { listener.onDelete(review) }
+            } else {
+                binding.btnDeleteReview.visibility = View.GONE
             }
-            if (millis == 0L) return ""
 
-            val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-            sdf.format(Date(millis))
-        } catch (e: Exception) {
-            ""
+            binding.root.setOnClickListener { listener.onClick(review) }
         }
     }
 

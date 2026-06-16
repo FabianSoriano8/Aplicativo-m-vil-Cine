@@ -83,7 +83,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_input_field"
                 android:hint="@string/full_name_hint"
-                android:inputType="textPersonName"
+                android:inputType="textCapSentences"
                 android:paddingHorizontal="16dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/text_secondary_noir"

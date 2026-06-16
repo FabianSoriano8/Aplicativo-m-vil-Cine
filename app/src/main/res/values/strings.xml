@@ -55,4 +55,15 @@
     <string name="handle_with_type">%1$s | %2$s</string>
     <string name="profile_switched_to">Perfil cambiado a %1$s</string>
     <string name="error_switching_profile">Error al cambiar perfil</string>
+
+    <string-array name="sort_options">
+        <item>Fecha (Más reciente)</item>
+        <item>Fecha (Más antigua)</item>
+        <item>Usuario (A-Z)</item>
+        <item>Usuario (Z-A)</item>
+        <item>Película (A-Z)</item>
+        <item>Película (Z-A)</item>
+        <item>Calificación (Mayor a menor)</item>
+        <item>Calificación (Menor a mayor)</item>
+    </string-array>
 </resources>

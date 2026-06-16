@@ -68,6 +68,12 @@ class AdminReviewsFragment : Fragment() {
             val rating = dialogBinding.dialogRatingBar.rating
             val comment = dialogBinding.etComment.text.toString().trim()
 
+            // Validación de estrellas
+            if (rating < 1.0f) {
+                Toast.makeText(requireContext(), "Como administrador, también debes asignar al menos 1 estrella", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             if (comment.isEmpty()) {
                 Toast.makeText(requireContext(), "Escribe un comentario", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -131,7 +137,7 @@ class AdminReviewsFragment : Fragment() {
             .setTitle("Delete Review")
             .setMessage("Are you sure you want to delete this review by ${review.userName}?")
             .setPositiveButton("Delete") { _, _ ->
-                viewModel.deleteReview(review.id)
+                viewModel.deleteReview(review)
             }
             .setNegativeButton("Cancel", null)
             .show()

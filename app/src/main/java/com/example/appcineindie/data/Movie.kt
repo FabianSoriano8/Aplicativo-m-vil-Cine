@@ -13,9 +13,10 @@ data class Movie(
     val rating: String = "",
     val remainingTime: String = "",
     val videoUrl: String = "",
+    val trailerUrl: String = "",
     val genres: List<String> = emptyList(),
+    val releaseYear: String = "",
+    val director: String = "",
     @com.google.firebase.firestore.Exclude
-    val progress: Int = 0 // Porcentaje de 0 a 100
-) {
-    // Firebase necesita un constructor vacío obligatorio (valores por defecto)
-}
+    val progress: Int = 0
+)

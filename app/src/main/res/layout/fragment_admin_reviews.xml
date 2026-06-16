@@ -4,7 +4,8 @@
     xmlns:tools="http://tools.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_noir">
+    android:background="@color/bg_noir"
+    android:fitsSystemWindows="true">
 
     <ImageButton
         android:id="@+id/btnBack"

@@ -57,7 +57,11 @@
         android:id="@+id/reviewsFragment"
         android:name="com.example.appcineindie.ui.ReviewsFragment"
         android:label="Reviews"
-        tools:layout="@layout/fragment_reviews" />
+        tools:layout="@layout/fragment_reviews">
+        <action
+            android:id="@+id/action_reviewsFragment_to_reviewDetailFragment"
+            app:destination="@id/reviewDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
@@ -76,6 +80,9 @@
         <action
             android:id="@+id/action_movieDetailFragment_to_videoPlayerFragment"
             app:destination="@id/videoPlayerFragment" />
+        <action
+            android:id="@+id/action_movieDetailFragment_to_reviewDetailFragment"
+            app:destination="@id/reviewDetailFragment" />
     </fragment>
 
     <fragment
@@ -119,4 +126,10 @@
         android:label="Manage Users"
         tools:layout="@layout/fragment_admin_users" />
 
+    <fragment
+        android:id="@+id/reviewDetailFragment"
+        android:name="com.example.appcineindie.ui.ReviewDetailFragment"
+        android:label="Detalle de Reseña">
+        <argument android:name="reviewId" app:argType="string" />
+    </fragment>
 </navigation>

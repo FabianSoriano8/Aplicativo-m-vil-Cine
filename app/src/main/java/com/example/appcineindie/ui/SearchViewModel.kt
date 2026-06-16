@@ -30,9 +30,10 @@ class SearchViewModel : ViewModel() {
             _filteredMovies.value = all
         } else {
             _filteredMovies.value = all.filter { movie ->
-                movie.title.contains(query, ignoreCase = true) || 
-                movie.category.contains(query, ignoreCase = true) ||
-                movie.genres.any { it.contains(query, ignoreCase = true) }
+                movie.title.contains(query, ignoreCase = true) ||
+                        movie.category.contains(query, ignoreCase = true) ||
+                        movie.director.contains(query, ignoreCase = true) || // Búsqueda por director
+                        movie.genres.any { it.contains(query, ignoreCase = true) }
             }
         }
     }

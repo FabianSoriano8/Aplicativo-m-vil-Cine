@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_noir">
+    android:background="@color/bg_noir"
+    android:fitsSystemWindows="true">
 
     <TextView
         android:id="@+id/tvSearchTitle"
@@ -22,12 +23,13 @@
         android:id="@+id/etSearch"
         android:layout_width="0dp"
         android:layout_height="56dp"
+        
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/bg_search_bar"
         android:drawablePadding="12dp"
         android:hint="Search movies, actors, directors..."
-        android:inputType="text"
+        android:inputType="textCapSentences"
         android:paddingHorizontal="16dp"
         android:textColor="@color/white"
         android:textColorHint="@color/text_secondary_noir"

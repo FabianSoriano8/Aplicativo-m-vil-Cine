@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_noir">
+    android:background="@color/bg_noir"
+    android:fitsSystemWindows="true">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -84,7 +85,38 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:textColor="@color/text_secondary_noir"
-                        tools:text="Category • Duration" />
+                        tools:text="Category • Duration • Director • Year" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="32dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnWatchNow"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/bg_vibrant_purple_button"
+                        android:text="WATCH NOW"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnTrailer"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/bg_dark_button"
+                        android:text="TRAILER"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <TextView
@@ -106,15 +138,29 @@
                     android:textSize="14sp"
                     tools:text="Full movie description goes here..." />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnWatchNow"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="32dp"
-                    android:background="@drawable/bg_vibrant_purple_button"
-                    android:text="WATCH NOW"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Reseñas"
                     android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="24dp" />
+
+                <Button
+                    android:id="@+id/btnAddReviewDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="@color/accent_noir"
+                    android:text="ESCRIBIR RESEÑA" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvReviewsDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_marginTop="8dp" />
 
             </LinearLayout>
         </LinearLayout>

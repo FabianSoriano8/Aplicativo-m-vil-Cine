@@ -2,13 +2,17 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/bg_noir">
+    android:background="@color/bg_noir"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="20dp"
+        android:paddingTop="40dp">
 
         <TextView
             android:id="@+id/tvDialogTitle"
@@ -24,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Title"
+            android:inputType="textCapSentences"
             android:textColor="@color/white"
             android:textColorHint="@color/text_secondary_noir" />
 
@@ -33,6 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:inputType="textCapSentences"
             android:hint="Description"
             android:textColor="@color/white"
             android:textColorHint="@color/text_secondary_noir" />
@@ -71,11 +76,37 @@
             android:textColorHint="@color/text_secondary_noir" />
 
         <EditText
+            android:id="@+id/etMovieYear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Año de publicación (ej. 2024)"
+            android:textColor="@color/white"
+            android:textColorHint="@color/text_secondary_noir" />
+
+        <EditText
+            android:id="@+id/etMovieDirector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:inputType="textCapSentences"
+            android:hint="Director"
+            android:textColor="@color/white"
+            android:textColorHint="@color/text_secondary_noir" />
+        <EditText
             android:id="@+id/etMovieVideoUrl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:hint="Video URL (Firebase/Web)"
+            android:textColor="@color/white"
+            android:textColorHint="@color/text_secondary_noir" />
+        <EditText
+            android:id="@+id/etMovieTrailerUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="YouTube Trailer URL"
             android:textColor="@color/white"
             android:textColorHint="@color/text_secondary_noir" />
 

@@ -42,8 +42,11 @@ class AdminViewModel : ViewModel() {
             "imageUrl" to movie.imageUrl,
             "duration" to movie.duration,
             "rating" to movie.rating,
-            "remainingTime" to movie.remainingTime,
-            "genres" to movie.genres
+            "genres" to movie.genres,
+            "releaseYear" to movie.releaseYear,
+            "director" to movie.director,
+            "videoUrl" to movie.videoUrl,
+            "trailerUrl" to movie.trailerUrl
         )
         
         if (isEdit) {
@@ -71,10 +74,24 @@ class AdminViewModel : ViewModel() {
         }
     }
 
-    fun deleteReview(reviewId: String) {
+    fun deleteReview(review: Review) { // Cambia el parámetro de String a Review para tener el movieId
         _isLoading.value = true
-        db.collection("reviews").document(reviewId).delete()
-            .addOnCompleteListener { _isLoading.value = false }
+        db.collection("reviews").document(review.id).delete()
+            .addOnSuccessListener {
+                updateMovieAverageRating(review.movieId) // Reutiliza la lógica de cálculo
+                _isLoading.value = false
+            }
+            .addOnFailureListener { _isLoading.value = false }
+    }
+    private fun updateMovieAverageRating(movieId: String) {
+        db.collection("reviews").whereEqualTo("movieId", movieId).get()
+            .addOnSuccessListener { snapshot ->
+                val reviews = snapshot.toObjects(Review::class.java)
+                val formattedAverage = if (reviews.isNotEmpty()) {
+                    String.format("%.1f", reviews.sumOf { it.rating?.toString()?.toDoubleOrNull() ?: 0.0 } / reviews.size)
+                } else ""
+                db.collection("movies").document(movieId).update("rating", formattedAverage)
+            }
     }
 
     // --- Users Management ---

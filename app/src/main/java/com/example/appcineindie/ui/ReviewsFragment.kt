@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -29,7 +31,7 @@ class ReviewsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var sessionManager: SessionManager
     private val viewModel: ReviewsViewModel by viewModels()
-    private val adapter = ReviewAdapter()
+    private lateinit var adapter: ReviewAdapter
     private var moviesList: List<Movie> = emptyList()
 
     override fun onCreateView(
@@ -46,109 +48,115 @@ class ReviewsFragment : Fragment() {
 
         setupRecyclerView()
         observeViewModel()
+        setupClickListeners()
+        setupSortSpinner()
 
         viewModel.fetchMovies()
-        // Por ahora escuchamos todas las reseñas (feed global)
-        viewModel.listenForReviews("") 
+        viewModel.listenForReviews("")
+        binding.etSearchReviews.addTextChangedListener { text ->
+            viewModel.filterReviews(text.toString())
+        }
+    }
 
-        binding.navHome.setOnClickListener {
+    private fun setupSortSpinner() {
+        val sortAdapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.sort_options,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+        binding.spinnerSort.adapter = sortAdapter
+        binding.spinnerSort.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: android.widget.AdapterView<*>?, view: View?, position: Int, id: Long) {
+                viewModel.setSortCriterion(position)
+            }
+            override fun onNothingSelected(parent: android.widget.AdapterView<*>?) {}
+        }
+    }
+
+    private fun setupClickListeners() {
+        binding.navHome.setSafeOnClickListener {
             lifecycleScope.launch {
-                val type = sessionManager.userType.first()
-                if (type == "spectator") {
-                    findNavController().navigate(R.id.homeFragment)
-                }
-                // Si es cinéfilo, ya está en ReviewsFragment (su home)
+                if (sessionManager.userType.first() == "spectator") findNavController().navigate(R.id.homeFragment)
             }
         }
-
-        binding.navProfile.setOnClickListener {
+        binding.navProfile.setSafeOnClickListener {
             findNavController().navigate(R.id.profileFragment)
         }
-
-        binding.navSearch.setOnClickListener {
+        binding.navSearch.setSafeOnClickListener {
             findNavController().navigate(R.id.searchFragment)
         }
-
-        binding.ivProfile.setOnClickListener {
-            findNavController().navigate(R.id.profileFragment)
-        }
-
-        binding.btnSendReview.setOnClickListener {
+        binding.btnSendReview.setSafeOnClickListener {
             showAddReviewDialog()
         }
     }
 
     private fun showAddReviewDialog() {
         val dialogBinding = DialogAddReviewBinding.inflate(layoutInflater)
-        
-        // Configurar el spinner de películas
-        if (moviesList.isEmpty()) {
-            Toast.makeText(requireContext(), "Cargando películas, intenta en un momento...", Toast.LENGTH_SHORT).show()
-            viewModel.fetchMovies() // Reintentar carga si está vacía
-        }
+        if (moviesList.isEmpty()) viewModel.fetchMovies()
 
-        val movieTitles = moviesList.map { it.title }
-        val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, movieTitles)
+        val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, moviesList.map { it.title })
         dialogBinding.spinnerMovies.adapter = spinnerAdapter
 
         val dialog = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
             .setView(dialogBinding.root)
             .create()
 
-        dialogBinding.btnSubmitReview.setOnClickListener {
-            val selectedPosition = dialogBinding.spinnerMovies.selectedItemPosition
-            if (selectedPosition < 0 || moviesList.isEmpty()) {
-                Toast.makeText(requireContext(), "Selecciona una película", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            val selectedMovie = moviesList[selectedPosition]
+        dialogBinding.btnSubmitReview.setSafeOnClickListener {
+            val pos = dialogBinding.spinnerMovies.selectedItemPosition
             val rating = dialogBinding.dialogRatingBar.rating
             val comment = dialogBinding.etComment.text.toString().trim()
 
-            if (comment.isEmpty()) {
-                Toast.makeText(requireContext(), "Escribe un comentario", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+            if (pos < 0 || rating < 1.0f || comment.isEmpty()) {
+                Toast.makeText(requireContext(), "Completa todos los campos", Toast.LENGTH_SHORT).show()
+                return@setSafeOnClickListener
             }
 
-            submitReview(selectedMovie, rating, comment)
+            submitReview(moviesList[pos], rating, comment)
             dialog.dismiss()
         }
-
         dialog.show()
     }
 
     private fun submitReview(movie: Movie, rating: Float, comment: String) {
-        val user = FirebaseAuth.getInstance().currentUser
-        if (user == null) {
-            Toast.makeText(requireContext(), "Debes iniciar sesión", Toast.LENGTH_SHORT).show()
-            return
+        val user = FirebaseAuth.getInstance().currentUser ?: return
+        FirebaseFirestore.getInstance().collection("users").document(user.uid).get().addOnSuccessListener { doc ->
+            val review = Review(
+                userId = user.uid,
+                userName = doc.getString("name") ?: user.displayName ?: "Usuario",
+                movieId = movie.id,
+                movieTitle = movie.title,
+                comment = comment,
+                rating = rating.toString(),
+                timestamp = System.currentTimeMillis()
+            )
+            viewModel.addReview(review, {
+                Toast.makeText(requireContext(), "Reseña publicada", Toast.LENGTH_SHORT).show()
+            }, { e ->
+                Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            })
         }
-
-        // Buscamos el nombre en Firestore para estar seguros de tener el más reciente
-        FirebaseFirestore.getInstance().collection("users").document(user.uid).get()
-            .addOnSuccessListener { doc ->
-                val realName = doc.getString("name") ?: user.displayName ?: "Usuario"
-
-                val review = Review(
-                    userId = user.uid,
-                    userName = realName,
-                    movieId = movie.id,
-                    movieTitle = movie.title,
-                    comment = comment,
-                    rating = rating.toString(),
-                    timestamp = System.currentTimeMillis()
-                )
-
-                viewModel.addReview("", review, {
-                    Toast.makeText(requireContext(), "Reseña publicada", Toast.LENGTH_SHORT).show()
-                }, { e ->
-                    Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-                })
-            }
     }
 
     private fun setupRecyclerView() {
+        adapter = ReviewAdapter(
+            currentUserId = FirebaseAuth.getInstance().currentUser?.uid,
+            listener = object : ReviewAdapter.ReviewActions {
+                override fun onClick(review: Review) {
+                    findNavController().navigate(R.id.reviewDetailFragment, bundleOf("reviewId" to review.id))
+                }
+                override fun onDelete(review: Review) {
+                    showConfirmDialog("Eliminar reseña", "¿Quieres eliminar tu reseña de ${review.movieTitle}?") {
+                        viewModel.deleteReview(review, {
+                            Toast.makeText(requireContext(), "Reseña eliminada", Toast.LENGTH_SHORT).show()
+                        }, { e ->
+                            Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                        })
+                    }
+                }
+            }
+        )
         binding.rvReviews.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = this@ReviewsFragment.adapter
@@ -156,12 +164,8 @@ class ReviewsFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.reviewsList.observe(viewLifecycleOwner) { reviews ->
-            adapter.updateData(reviews)
-        }
-        viewModel.moviesList.observe(viewLifecycleOwner) { movies ->
-            moviesList = movies
-        }
+        viewModel.reviewsList.observe(viewLifecycleOwner) { adapter.updateData(it) }
+        viewModel.moviesList.observe(viewLifecycleOwner) { moviesList = it }
     }
 
     override fun onDestroyView() {

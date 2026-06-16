@@ -5,11 +5,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.appcineindie.data.Movie
 import com.example.appcineindie.data.Review
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.appcineindie.data.repository.CineRepository
+import com.google.firebase.firestore.ListenerRegistration
 
 class ReviewsViewModel : ViewModel() {
 
-    private val db = FirebaseFirestore.getInstance()
+    private val repository = CineRepository()
+    private var reviewsListener: ListenerRegistration? = null
+
+    private var allReviews: List<Review> = emptyList()
+
+    private var currentSortCriterion: Int = 0
+
+    private var currentQuery: String = ""
 
     private val _reviewsList = MutableLiveData<List<Review>>()
     val reviewsList: LiveData<List<Review>> get() = _reviewsList
@@ -17,71 +25,73 @@ class ReviewsViewModel : ViewModel() {
     private val _moviesList = MutableLiveData<List<Movie>>()
     val moviesList: LiveData<List<Movie>> get() = _moviesList
 
-    // 0. Obtener lista de películas para el selector
+    private var movieMap: Map<String, Movie> = emptyMap()
+
     fun fetchMovies() {
-        android.util.Log.d("ReviewsViewModel", "Iniciando fetch de películas...")
-        db.collection("movies").get()
-            .addOnSuccessListener { snapshot ->
-                if (snapshot.isEmpty) {
-                    android.util.Log.w("ReviewsViewModel", "¡La colección 'movies' está vacía en Firestore!")
-                }
-                val movies = snapshot.toObjects(Movie::class.java)
-                android.util.Log.d("ReviewsViewModel", "Películas cargadas con éxito: ${movies.size}")
-                _moviesList.value = movies
-            }
-            .addOnFailureListener { e ->
-                android.util.Log.e("ReviewsViewModel", "Error Firestore al cargar películas: ${e.message}")
-            }
+        repository.fetchMovies { movies ->
+            _moviesList.value = movies
+            movieMap = movies.associateBy { it.id }
+            if (currentQuery.isNotEmpty()) applySortAndFilter()
+        }
     }
 
-    // 1. Escuchar las reseñas (global o de una película específica)
     fun listenForReviews(movieId: String = "") {
-        val collectionRef = if (movieId.isEmpty()) {
-            db.collection("reviews")
-        } else {
-            db.collection("movies").document(movieId).collection("reviews")
-        }
-
-        // Eliminamos el orderBy de Firestore para que no se filtren las reseñas antiguas que no tengan el campo timestamp
-        collectionRef.addSnapshotListener { snapshot, error ->
-            if (error != null) {
-                android.util.Log.e("ReviewsViewModel", "Error Firestore: ${error.message}")
-                return@addSnapshotListener
-            }
-
-            if (snapshot != null) {
-                val reviews = snapshot.toObjects(Review::class.java)
-                
-                // Ordenamos en memoria para incluir todas las reseñas
-                val sortedReviews = reviews.sortedByDescending { review ->
-                    when (val ts = review.timestamp) {
-                        is String -> ts.toLongOrNull() ?: 0L
-                        is Long -> ts
-                        is com.google.firebase.Timestamp -> ts.toDate().time
-                        else -> 0L
-                    }
-                }
-                
-                android.util.Log.d("ReviewsViewModel", "Se encontraron ${sortedReviews.size} reseñas")
-                _reviewsList.value = sortedReviews
-            }
+        reviewsListener?.remove()
+        reviewsListener = repository.listenToReviews(movieId) { reviews ->
+            allReviews = reviews
+            applySortAndFilter()
         }
     }
 
-    // 2. Guardar una nueva reseña
-    fun addReview(movieId: String, review: Review, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
-        val collectionRef = if (movieId.isEmpty()) {
-            db.collection("reviews")
+    fun addReview(review: Review, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        repository.addReview(review, onSuccess, onFailure)
+    }
+
+    fun deleteReview(review: Review, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        repository.deleteReview(review, onSuccess, onFailure)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        reviewsListener?.remove()
+    }
+
+    fun filterReviews(query: String) {
+        currentQuery = query
+        applySortAndFilter()
+    }
+
+    fun setSortCriterion(criterion: Int) {
+        currentSortCriterion = criterion
+        applySortAndFilter()
+    }
+
+
+    private fun applySortAndFilter() {
+        val list = if (currentQuery.isEmpty()) {
+            allReviews
         } else {
-            db.collection("movies").document(movieId).collection("reviews")
+            allReviews.filter { review ->
+                val movie = movieMap[review.movieId]
+                review.movieTitle.contains(currentQuery, ignoreCase = true) ||
+                        review.userName.contains(currentQuery, ignoreCase = true) ||
+                        movie?.director?.contains(currentQuery, ignoreCase = true) == true ||
+                        movie?.category?.contains(currentQuery, ignoreCase = true) == true ||
+                        movie?.genres?.any { it.contains(currentQuery, ignoreCase = true) } == true
+            }
         }
 
-        collectionRef.add(review)
-            .addOnSuccessListener {
-                onSuccess()
-            }
-            .addOnFailureListener { exception ->
-                onFailure(exception)
-            }
+        val sorted = when (currentSortCriterion) {
+            0 -> list.sortedByDescending { (it.timestamp as? Long) ?: 0L } // Fecha Reciente
+            1 -> list.sortedBy { (it.timestamp as? Long) ?: 0L } // Fecha Antigua
+            2 -> list.sortedBy { it.userName.lowercase() } // Usuario A-Z
+            3 -> list.sortedByDescending { it.userName.lowercase() } // Usuario Z-A
+            4 -> list.sortedBy { it.movieTitle.lowercase() } // Película A-Z
+            5 -> list.sortedByDescending { it.movieTitle.lowercase() } // Película Z-A
+            6 -> list.sortedByDescending { it.rating.toString().toFloatOrNull() ?: 0f } // Rating Max
+            7 -> list.sortedBy { it.rating.toString().toFloatOrNull() ?: 0f } // Rating Min
+            else -> list
+        }
+        _reviewsList.value = sorted
     }
 }

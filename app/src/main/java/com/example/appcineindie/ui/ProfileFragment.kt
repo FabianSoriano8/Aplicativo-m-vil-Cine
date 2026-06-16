@@ -18,6 +18,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import androidx.appcompat.app.AlertDialog
+import com.example.appcineindie.databinding.DialogEditProfileBinding
 
 class ProfileFragment : Fragment() {
 
@@ -58,7 +60,7 @@ class ProfileFragment : Fragment() {
                 findNavController().navigate(R.id.homeFragment)
             }
         }
-        
+
         binding.navSearch.setOnClickListener {
             findNavController().navigate(R.id.searchFragment)
         }
@@ -66,7 +68,90 @@ class ProfileFragment : Fragment() {
         binding.btnAdminPanel.setOnClickListener {
             findNavController().navigate(R.id.adminDashboardFragment)
         }
+
+        binding.btnEditProfile.setOnClickListener {
+            showEditProfileDialog()
+        }
+
+        binding.btnDeleteAccount.setOnClickListener {
+            showDeleteAccountConfirmation()
+        }
     }
+
+    private fun showEditProfileDialog() {
+        val dialogBinding = DialogEditProfileBinding.inflate(layoutInflater)
+
+        // Cargar nombre actual si existe
+        val currentName = binding.tvUserName.text.toString()
+        if (currentName != "Usuario") {
+            dialogBinding.etEditName.setText(currentName)
+        }
+
+        val dialog = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+            .setView(dialogBinding.root)
+            .create()
+
+        dialogBinding.btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogBinding.btnSaveProfile.setOnClickListener {
+            val newName = dialogBinding.etEditName.text.toString().trim()
+            val newPassword = dialogBinding.etEditPassword.text.toString()
+            val confirmPassword = dialogBinding.etConfirmNewPassword.text.toString()
+
+            if (newName.isEmpty()) {
+                Toast.makeText(requireContext(), "El nombre no puede estar vacío", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val user = auth.currentUser
+            if (user != null) {
+                showLoading()
+
+                // 1. Actualizar nombre en Firestore
+                db.collection("users").document(user.uid).update("name", newName)
+                    .addOnSuccessListener {
+                        binding.tvUserName.text = newName
+
+                        // 2. Si se ingresó una contraseña, intentar actualizarla
+                        if (newPassword.isNotEmpty()) {
+                            if (newPassword == confirmPassword) {
+                                if (newPassword.length >= 6) {
+                                    user.updatePassword(newPassword)
+                                        .addOnSuccessListener {
+                                            hideLoading()
+                                            dialog.dismiss()
+                                            Toast.makeText(requireContext(), "Perfil y contraseña actualizados", Toast.LENGTH_SHORT).show()
+                                        }
+                                        .addOnFailureListener { e ->
+                                            hideLoading()
+                                            Toast.makeText(requireContext(), "Error al actualizar contraseña: ${e.message}", Toast.LENGTH_SHORT).show()
+                                        }
+                                } else {
+                                    hideLoading()
+                                    Toast.makeText(requireContext(), "Mínimo 6 caracteres para la contraseña", Toast.LENGTH_SHORT).show()
+                                }
+                            } else {
+                                hideLoading()
+                                Toast.makeText(requireContext(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
+                            }
+                        } else {
+                            hideLoading()
+                            dialog.dismiss()
+                            Toast.makeText(requireContext(), "Perfil actualizado", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    .addOnFailureListener {
+                        hideLoading()
+                        Toast.makeText(requireContext(), "Error al actualizar perfil", Toast.LENGTH_SHORT).show()
+                    }
+            }
+        }
+
+        dialog.show()
+    }
+
 
     private fun loadUserData() {
         val user = auth.currentUser
@@ -87,10 +172,11 @@ class ProfileFragment : Fragment() {
 
             db.collection("users").document(user.uid).get()
                 .addOnSuccessListener { document ->
+                    
                     if (_binding != null && document.exists()) {
                         val name = document.getString("name") ?: "Usuario"
                         val type = document.getString("type") ?: "spectator"
-                        
+
                         binding.tvUserName.text = name
 
                         // Mostrar botón de admin si el tipo es admin
@@ -187,5 +273,39 @@ class ProfileFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showDeleteAccountConfirmation() {
+        AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+            .setTitle("¿Eliminar cuenta?")
+            .setMessage("Esta acción es permanente y borrará todos tus datos. ¿Estás seguro?")
+            .setPositiveButton("ELIMINAR") { _, _ ->
+                deleteUserAccount()
+            }
+            .setNegativeButton("CANCELAR", null)
+            .show()
+    }
+
+    private fun deleteUserAccount() {
+        val user = auth.currentUser
+        if (user != null) {
+            showLoading()
+
+            // Primero eliminamos los datos de Firestore
+            db.collection("users").document(user.uid).delete()
+                .addOnSuccessListener {
+                    // Luego eliminamos el usuario de Authentication
+                    user.delete()
+                        .addOnSuccessListener {
+                            hideLoading()
+                            Toast.makeText(requireContext(), "Cuenta eliminada correctamente", Toast.LENGTH_SHORT).show()
+                            logout() // Esto limpiará la sesión local y redirigirá al login
+                        }
+                }
+                .addOnFailureListener {
+                    hideLoading()
+                    Toast.makeText(requireContext(), "Error al eliminar datos del perfil", Toast.LENGTH_SHORT).show()
+                }
+        }
     }
 }

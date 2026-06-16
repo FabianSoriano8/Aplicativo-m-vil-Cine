@@ -41,11 +41,23 @@
                 tools:text="01/01/2024 12:00" />
 
             <LinearLayout
+                android:id="@+id/layoutRatingContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
+                <ImageButton
+                    android:id="@+id/btnDeleteReview"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Delete Review"
+                    android:src="@android:drawable/ic_menu_delete"
+                    android:visibility="gone"
+                    app:tint="@android:color/holo_red_light" />
 
                 <TextView
                     android:id="@+id/tvReviewRatingText"

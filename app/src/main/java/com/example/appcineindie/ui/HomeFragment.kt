@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.example.appcineindie.R
 import com.example.appcineindie.data.SessionManager
 import com.example.appcineindie.databinding.FragmentHomeBinding
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -22,7 +23,6 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var sessionManager: SessionManager
-
     private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
@@ -37,75 +37,49 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Escuchamos cuando lleguen los datos de la película destacada
+        observeViewModel()
+        setupClickListeners()
+
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+        if (userId.isNotEmpty()) viewModel.fetchHomeData(userId)
+    }
+
+    private fun observeViewModel() {
         viewModel.featuredMovie.observe(viewLifecycleOwner) { movie ->
-            if (movie != null) {
-                Log.d("HomeFragment", "Pelicula destacada recibida: ${movie.title}")
-                binding.tvFeaturedTitle.text = movie.title
-                binding.tvFeaturedMetadata.text = "${movie.category} • ${movie.duration}"
-                binding.tvFeaturedDescription.text = movie.description
-
-                Glide.with(this)
-                    .load(movie.imageUrl)
-                    .placeholder(android.R.drawable.progress_horizontal)
-                    .error(android.R.drawable.stat_notify_error)
-                    .into(binding.ivFeaturedPoster)
-
-                // Click en la película destacada (Banner)
-                binding.ivFeaturedPoster.setOnClickListener {
-                    navigateToDetail(movie.id)
-                }
+            movie?.let {
+                binding.tvFeaturedTitle.text = it.title
+                binding.tvFeaturedMetadata.text = "${it.category} • ${it.duration}"
+                binding.tvFeaturedDescription.text = it.description
+                Glide.with(this).load(it.imageUrl).into(binding.ivFeaturedPoster)
+                binding.ivFeaturedPoster.setSafeOnClickListener { navigateToDetail(movie.id) }
             }
         }
 
-        // Observamos películas en tendencia
         viewModel.trendingMovies.observe(viewLifecycleOwner) { movies ->
-            binding.rvTrendingNow.adapter = MovieAdapter(movies, R.layout.item_movie_trending) { movie ->
-                navigateToDetail(movie.id)
-            }
+            binding.rvTrendingNow.adapter = MovieAdapter(movies, R.layout.item_movie_trending) { navigateToDetail(it.id) }
         }
 
-        // Observamos películas para continuar viendo
         viewModel.continueWatchingMovies.observe(viewLifecycleOwner) { movies ->
-            binding.rvContinueWatching.adapter = MovieAdapter(movies, R.layout.item_movie_continue) { movie ->
-                navigateToDetail(movie.id)
-            }
+            binding.rvContinueWatching.adapter = MovieAdapter(movies, R.layout.item_movie_continue) { navigateToDetail(it.id) }
         }
-        lifecycleScope.launch {
-            val userId = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: ""
-            if (userId.isNotEmpty()) {
-                viewModel.fetchHomeData(userId)
-            }
-        }
-        // --- Lógica de navegación existente ---
-        binding.navHome.setOnClickListener {
+    }
+
+    private fun setupClickListeners() {
+        binding.navHome.setSafeOnClickListener {
             lifecycleScope.launch {
-                val type = sessionManager.userType.first()
-                if (type == "cinephile") {
-                    findNavController().navigate(R.id.reviewsFragment)
-                }
+                if (sessionManager.userType.first() == "cinephile") findNavController().navigate(R.id.reviewsFragment)
             }
         }
-
-        binding.navProfile.setOnClickListener {
-            findNavController().navigate(R.id.profileFragment)
-        }
-
-        binding.navSearch.setOnClickListener {
+        binding.navSearch.setSafeOnClickListener {
             findNavController().navigate(R.id.searchFragment)
         }
-
-        binding.ivProfile.setOnClickListener {
+        binding.navProfile.setSafeOnClickListener {
             findNavController().navigate(R.id.profileFragment)
-
         }
     }
 
     private fun navigateToDetail(movieId: String) {
-        if (movieId.isNotEmpty()) {
-            val bundle = bundleOf("movieId" to movieId)
-            findNavController().navigate(R.id.movieDetailFragment, bundle)
-        }
+        if (movieId.isNotEmpty()) findNavController().navigate(R.id.movieDetailFragment, bundleOf("movieId" to movieId))
     }
 
     override fun onDestroyView() {

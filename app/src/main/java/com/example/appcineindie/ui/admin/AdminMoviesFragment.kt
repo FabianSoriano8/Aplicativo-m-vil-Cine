@@ -82,7 +82,11 @@ class AdminMoviesFragment : Fragment() {
             dialogBinding.etMovieUrl.setText(movie.imageUrl)
             dialogBinding.etMovieDuration.setText(movie.duration)
             dialogBinding.etMovieVideoUrl.setText(movie.videoUrl)
-            
+            dialogBinding.etMovieYear.setText(movie.releaseYear)
+            dialogBinding.etMovieDirector.setText(movie.director)
+            dialogBinding.etMovieTrailerUrl.setText(movie.trailerUrl)
+
+
             val catIndex = categories.indexOf(movie.category)
             if (catIndex >= 0) dialogBinding.spinnerCategory.setSelection(catIndex)
 
@@ -123,7 +127,10 @@ class AdminMoviesFragment : Fragment() {
                 category = categories[dialogBinding.spinnerCategory.selectedItemPosition],
                 imageUrl = dialogBinding.etMovieUrl.text.toString().trim(),
                 duration = dialogBinding.etMovieDuration.text.toString().trim(),
+                releaseYear = dialogBinding.etMovieYear.text.toString().trim(),
+                director = dialogBinding.etMovieDirector.text.toString().trim(),
                 videoUrl = dialogBinding.etMovieVideoUrl.text.toString().trim(),
+                trailerUrl = dialogBinding.etMovieTrailerUrl.text.toString().trim(),
                 genres = selectedGenres,
                 rating = movie?.rating ?: "0.0",
                 remainingTime = movie?.remainingTime ?: ""

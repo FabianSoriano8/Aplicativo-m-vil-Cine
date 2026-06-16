@@ -12,12 +12,14 @@ import com.example.appcineindie.databinding.FragmentRegisterBinding
 import com.example.appcineindie.ui.hideLoading
 import com.example.appcineindie.ui.showLoading
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class RegisterFragment : Fragment() {
 
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
+    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,19 +65,39 @@ class RegisterFragment : Fragment() {
 
         showLoading()
         binding.btRegistrar.isEnabled = false
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(requireActivity()) { task ->
-                hideLoading()
-                if (task.isSuccessful) {
-                    // Registro exitoso, vamos a elegir el tipo de usuario
-                    val bundle = Bundle().apply {
-                        putString("userName", name)
-                    }
-                    findNavController().navigate(R.id.action_registerFragment_to_userTypeFragment, bundle)
+        db.collection("users")
+            .whereEqualTo("name", name)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (documents.isEmpty) {
+                    auth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(requireActivity()) { task ->
+                            hideLoading()
+                            if (task.isSuccessful) {
+                                val bundle = Bundle().apply {
+                                    putString("userName", name)
+                                }
+                                findNavController().navigate(R.id.action_registerFragment_to_userTypeFragment, bundle)
+                            } else {
+                                binding.btRegistrar.isEnabled = true
+                                Toast.makeText(requireContext(), "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                            }
+                        }
                 } else {
+                    hideLoading()
                     binding.btRegistrar.isEnabled = true
-                    Toast.makeText(requireContext(), "Error al registrarse: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "Este nombre de usuario ya está en uso. Por favor elige otro.", Toast.LENGTH_SHORT).show()
                 }
+            }
+            .addOnFailureListener { e ->
+                hideLoading()
+                binding.btRegistrar.isEnabled = true
+                Toast.makeText(requireContext(), "Error al verificar disponibilidad: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                hideLoading()
+                binding.btRegistrar.isEnabled = true
+                Toast.makeText(requireContext(), "Error al verificar disponibilidad: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
 

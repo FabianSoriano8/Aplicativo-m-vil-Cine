@@ -22,6 +22,7 @@ class AdminReviewAdapter(
             binding.tvMovie.text = "Movie: ${review.movieTitle}"
             binding.tvComment.text = review.comment
             binding.tvDate.text = formatTimestamp(review.timestamp)
+            binding.tvRating.text = review.rating?.toString() ?: "0.0"
             binding.btnDeleteReview.setOnClickListener { onDelete(review) }
         }
     }

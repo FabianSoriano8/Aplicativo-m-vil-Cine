@@ -81,7 +81,13 @@
                     android:src="@android:drawable/ic_menu_delete"
                     android:contentDescription="Delete"
                     app:tint="@android:color/holo_red_light" />
-
+                <TextView
+                    android:id="@+id/tvMovieRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/vibrant_purple"
+                    android:textStyle="bold"
+                    tools:text="★ 4.5" />
             </LinearLayout>
         </LinearLayout>
 
